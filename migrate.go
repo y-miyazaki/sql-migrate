@@ -721,11 +721,9 @@ func (ms MigrationSet) GetMigrationRecords(db *sql.DB, dialect string) ([]*Migra
 
 func (ms MigrationSet) getMigrationDbMap(db *sql.DB, dialect string) (*gorp.DbMap, error) {
 	d, ok := MigrationDialects[dialect]
-    fmt.Println("getMigrationDbMap1")
 	if !ok {
 		return nil, fmt.Errorf("Unknown dialect: %s", dialect)
 	}
-    fmt.Println("getMigrationDbMap2")
 
 	// When using the mysql driver, make sure that the parseTime option is
 	// configured, otherwise it won't map time columns to time.Time. See
@@ -748,11 +746,8 @@ Check https://github.com/go-sql-driver/mysql#parsetime for more info.`)
 	}
 
 	// Create migration database map
-    fmt.Println("getMigrationDbMap3")
     dbMap := &gorp.DbMap{Db: db, Dialect: d}
-    fmt.Println("dbout start")
 	table := dbMap.AddTableWithNameAndSchema(MigrationRecord{}, ms.SchemaName, ms.getTableName())
-    fmt.Println("dbout end")
 	//dbMap.TraceOn("", log.New(os.Stdout, "migrate: ", log.Lmicroseconds))
 
 	if dialect == "oci8" || dialect == "godror" {

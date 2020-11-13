@@ -53,7 +53,6 @@ func (c *StatusCommand) Run(args []string) int {
 		ui.Error(err.Error())
 		return 1
 	}
-    fmt.Println("test1")
 	source := migrate.FileMigrationSource{
 		Dir: env.Dir,
 	}
@@ -62,14 +61,12 @@ func (c *StatusCommand) Run(args []string) int {
 		ui.Error(err.Error())
 		return 1
 	}
-    fmt.Println("test2")
 
 	records, err := migrate.GetMigrationRecords(db, dialect)
 	if err != nil {
 		ui.Error(err.Error())
 		return 1
 	}
-    fmt.Println("test3")
 
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetHeader([]string{"Migration", "Applied"})

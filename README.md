@@ -2,27 +2,27 @@
 
 > SQL Schema migration tool for [Go](http://golang.org/). Based on [gorp](https://github.com/go-gorp/gorp) and [goose](https://bitbucket.org/liamstask/goose).
 
-[![Build Status](https://travis-ci.org/rubenv/sql-migrate.svg?branch=master)](https://travis-ci.org/rubenv/sql-migrate) [![GoDoc](https://godoc.org/github.com/rubenv/sql-migrate?status.svg)](https://godoc.org/github.com/rubenv/sql-migrate)
+[![Build Status](https://travis-ci.org/rubenv/sql-migrate.svg?branch=master)](https://travis-ci.org/rubenv/sql-migrate) [![GoDoc](https://godoc.org/github.com/y-miyazaki/sql-migrate?status.svg)](https://godoc.org/github.com/y-miyazaki/sql-migrate)
 
-Using [modl](https://github.com/jmoiron/modl)? Check out [modl-migrate](https://github.com/rubenv/modl-migrate).
+Using [modl](https://github.com/jmoiron/modl)? Check out [modl-migrate](https://github.com/y-miyazaki/modl-migrate).
 
 ## Features
 
-* Usable as a CLI tool or as a library
-* Supports SQLite, PostgreSQL, MySQL, MSSQL and Oracle databases (through [gorp](https://github.com/go-gorp/gorp))
-* Can embed migrations into your application
-* Migrations are defined with SQL for full flexibility
-* Atomic migrations
-* Up/down migrations to allow rollback
-* Supports multiple database types in one project
-* Works great with other libraries such as [sqlx](http://jmoiron.github.io/sqlx/)
+-   Usable as a CLI tool or as a library
+-   Supports SQLite, PostgreSQL, MySQL, MSSQL and Oracle databases (through [gorp](https://github.com/go-gorp/gorp))
+-   Can embed migrations into your application
+-   Migrations are defined with SQL for full flexibility
+-   Atomic migrations
+-   Up/down migrations to allow rollback
+-   Supports multiple database types in one project
+-   Works great with other libraries such as [sqlx](http://jmoiron.github.io/sqlx/)
 
 ## Installation
 
 To install the library and command line program, use the following:
 
 ```bash
-go get -v github.com/rubenv/sql-migrate/...
+go get -v github.com/y-miyazaki/sql-migrate/...
 ```
 
 ## Usage
@@ -108,6 +108,7 @@ $ sql-migrate status
 ```
 
 #### Running Test Integrations
+
 You can see how to run setups for different setups by executing the `.sh` files in [test-integration](test-integration/)
 
 ```bash
@@ -131,6 +132,7 @@ production:
 See [here](https://github.com/go-sql-driver/mysql#parsetime) for more information.
 
 ### Oracle (oci8)
+
 Oracle Driver is [oci8](https://github.com/mattn/go-oci8), it is not pure Go code and relies on Oracle Office Client ([Instant Client](https://www.oracle.com/database/technologies/instant-client/downloads.html)), more detailed information is in the [oci8 repo](https://github.com/mattn/go-oci8).
 
 #### Install with Oracle support
@@ -138,7 +140,7 @@ Oracle Driver is [oci8](https://github.com/mattn/go-oci8), it is not pure Go cod
 To install the library and command line program, use the following:
 
 ```bash
-go get -tags oracle -v github.com/rubenv/sql-migrate/...
+go get -tags oracle -v github.com/y-miyazaki/sql-migrate/...
 ```
 
 ```yml
@@ -150,6 +152,7 @@ development:
 ```
 
 ### Oracle (godror)
+
 Oracle Driver is [godror](https://github.com/godror/godror), it is not pure Go code and relies on Oracle Office Client ([Instant Client](https://www.oracle.com/database/technologies/instant-client/downloads.html)), more detailed information is in the [godror repository](https://github.com/godror/godror).
 
 #### Install with Oracle support
@@ -157,16 +160,19 @@ Oracle Driver is [godror](https://github.com/godror/godror), it is not pure Go c
 To install the library and command line program, use the following:
 
 1. Install sql-migrate
+
 ```bash
-go get -tags godror -v github.com/rubenv/sql-migrate/...
+go get -tags godror -v github.com/y-miyazaki/sql-migrate/...
 ```
 
 2. Download Oracle Office Client(e.g. macos, click [Instant Client](https://www.oracle.com/database/technologies/instant-client/downloads.html) if you are other system)
+
 ```bash
 wget https://download.oracle.com/otn_software/mac/instantclient/193000/instantclient-basic-macos.x64-19.3.0.0.0dbru.zip
 ```
 
 3. Configure environment variables `LD_LIBRARY_PATH`
+
 ```
 export LD_LIBRARY_PATH=your_oracle_office_path/instantclient_19_3
 ```
@@ -179,13 +185,12 @@ development:
     table: migrations
 ```
 
-
 ### As a library
 
 Import sql-migrate into your application:
 
 ```go
-import "github.com/rubenv/sql-migrate"
+import "github.com/y-miyazaki/sql-migrate"
 ```
 
 Set up a source of migrations, this can be from memory, from a set of files, from bindata (more on that later), or from any library that implements [`http.FileSystem`](https://godoc.org/net/http#FileSystem):
@@ -247,9 +252,10 @@ fmt.Printf("Applied %d migrations!\n", n)
 
 Note that `n` can be greater than `0` even if there is an error: any migration that succeeded will remain applied even if a later one fails.
 
-Check [the GoDoc reference](https://godoc.org/github.com/rubenv/sql-migrate) for the full documentation.
+Check [the GoDoc reference](https://godoc.org/github.com/y-miyazaki/sql-migrate) for the full documentation.
 
 ## Writing migrations
+
 Migrations are defined in SQL files, which contain a set of SQL statements. Special comments are used to distinguish up and down migrations.
 
 ```sql

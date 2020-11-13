@@ -15,7 +15,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/rubenv/sql-migrate/sqlparse"
+	"github.com/y-miyazaki/sql-migrate/sqlparse"
 	"gopkg.in/gorp.v1"
 )
 
@@ -698,10 +698,12 @@ func ToCatchup(migrations, existingMigrations []*Migration, lastRun *Migration) 
 }
 
 func GetMigrationRecords(db *sql.DB, dialect string) ([]*MigrationRecord, error) {
+    fmt.Println("GetMigrationRecords1")
 	return migSet.GetMigrationRecords(db, dialect)
 }
 
 func (ms MigrationSet) GetMigrationRecords(db *sql.DB, dialect string) ([]*MigrationRecord, error) {
+    fmt.Println("GetMigrationRecords2")
 	dbMap, err := ms.getMigrationDbMap(db, dialect)
 	if err != nil {
 		return nil, err
@@ -719,13 +721,15 @@ func (ms MigrationSet) GetMigrationRecords(db *sql.DB, dialect string) ([]*Migra
 
 func (ms MigrationSet) getMigrationDbMap(db *sql.DB, dialect string) (*gorp.DbMap, error) {
 	d, ok := MigrationDialects[dialect]
+    fmt.Println("getMigrationDbMap1")
 	if !ok {
 		return nil, fmt.Errorf("Unknown dialect: %s", dialect)
 	}
+    fmt.Println("getMigrationDbMap2")
 
 	// When using the mysql driver, make sure that the parseTime option is
 	// configured, otherwise it won't map time columns to time.Time. See
-	// https://github.com/rubenv/sql-migrate/issues/2
+	// https://github.com/y-miyazaki/sql-migrate/issues/2
 	if dialect == "mysql" {
 		var out *time.Time
 		err := db.QueryRow("SELECT NOW()").Scan(&out)
@@ -744,8 +748,11 @@ Check https://github.com/go-sql-driver/mysql#parsetime for more info.`)
 	}
 
 	// Create migration database map
-	dbMap := &gorp.DbMap{Db: db, Dialect: d}
-	table := dbMap.AddTableWithNameAndSchema(MigrationRecord{}, ms.SchemaName, ms.getTableName()).SetKeys(false, "Id")
+    fmt.Println("getMigrationDbMap3")
+    dbMap := &gorp.DbMap{Db: db, Dialect: d}
+    fmt.Println("dbout start")
+	table := dbMap.AddTableWithNameAndSchema(MigrationRecord{}, ms.SchemaName, ms.getTableName()).SetKeys(true, "Id")
+    fmt.Println("dbout end")
 	//dbMap.TraceOn("", log.New(os.Stdout, "migrate: ", log.Lmicroseconds))
 
 	if dialect == "oci8" || dialect == "godror" {

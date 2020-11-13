@@ -751,7 +751,7 @@ Check https://github.com/go-sql-driver/mysql#parsetime for more info.`)
     fmt.Println("getMigrationDbMap3")
     dbMap := &gorp.DbMap{Db: db, Dialect: d}
     fmt.Println("dbout start")
-	table := dbMap.AddTableWithNameAndSchema(MigrationRecord{}, ms.SchemaName, ms.getTableName()).SetKeys(true, "Id")
+	table := dbMap.AddTableWithNameAndSchema(MigrationRecord{}, ms.SchemaName, ms.getTableName())
     fmt.Println("dbout end")
 	//dbMap.TraceOn("", log.New(os.Stdout, "migrate: ", log.Lmicroseconds))
 

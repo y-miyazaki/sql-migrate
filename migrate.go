@@ -485,10 +485,13 @@ func (ms MigrationSet) ExecMax(db *sql.DB, dialect string, m MigrationSource, di
 
 				return applied, newTxError(migration, err)
 			}
-		case Down:
-			_, err := executor.Delete(&MigrationRecord{
-				Id: migration.Id,
-			})
+        case Down:
+            fmt.Println("test1")
+			// _, err := executor.Delete(&MigrationRecord{
+			// 	Id: migration.Id,
+			// })
+            _, err = executor.Exec(fmt.Sprintf("DELETE FROM %s where id=?", ms.getTableName()), migration.Id)
+            fmt.Println("test2")
 			if err != nil {
 				if trans, ok := executor.(*gorp.Transaction); ok {
 					_ = trans.Rollback()
@@ -496,6 +499,7 @@ func (ms MigrationSet) ExecMax(db *sql.DB, dialect string, m MigrationSource, di
 
 				return applied, newTxError(migration, err)
 			}
+            fmt.Println("test3")
 		default:
 			panic("Not possible")
 		}
@@ -698,12 +702,10 @@ func ToCatchup(migrations, existingMigrations []*Migration, lastRun *Migration) 
 }
 
 func GetMigrationRecords(db *sql.DB, dialect string) ([]*MigrationRecord, error) {
-    fmt.Println("GetMigrationRecords1")
 	return migSet.GetMigrationRecords(db, dialect)
 }
 
 func (ms MigrationSet) GetMigrationRecords(db *sql.DB, dialect string) ([]*MigrationRecord, error) {
-    fmt.Println("GetMigrationRecords2")
 	dbMap, err := ms.getMigrationDbMap(db, dialect)
 	if err != nil {
 		return nil, err
